@@ -11,6 +11,8 @@ import MetasTab from '@/components/MetasTab';
 import InvestimentosTab from '@/components/InvestimentosTab';
 import PonteTab from '@/components/PonteTab';
 import ConfiguracoesTab from '@/components/ConfiguracoesTab';
+import MobileApp from '@/components/mobile/MobileApp';
+import { useIsMobile } from '@/components/mobile/useIsMobile';
 
 function AppContent() {
   const { activeTab } = useFinancial();
@@ -24,7 +26,7 @@ function AppContent() {
 
         <main className="flex-1 p-8 overflow-y-auto">
           <div className="max-w-7xl mx-auto">
-            
+
             {/* Todas as Abas do Sistema Integradas */}
             {activeTab === 'dashboard' && <DashboardTab />}
             {activeTab === 'extrato' && <ExtratoTab />}
@@ -41,10 +43,17 @@ function AppContent() {
   );
 }
 
+// Escolhe a versão: celular (< 768px) usa o app mobile, o resto continua no desktop original
+function ResponsiveApp() {
+  const isMobile = useIsMobile();
+  if (isMobile === null) return <div className="min-h-screen bg-slate-950" />;
+  return isMobile ? <MobileApp /> : <AppContent />;
+}
+
 export default function Home() {
   return (
     <FinancialProvider>
-      <AppContent />
+      <ResponsiveApp />
     </FinancialProvider>
   );
 }

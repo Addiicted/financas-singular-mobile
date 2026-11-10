@@ -19,6 +19,19 @@
   }
 }
 
+/* Esconde a barra de rolagem em carrosséis horizontais (versão mobile) */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Telas do desktop reaproveitadas dentro do app mobile */
+.mobile-embed {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
