@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "dev-claude",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:/Users/pedro/OneDrive/Desktop/DashboardV1/Dashboard-Claude", "run", "dev", "--", "-p", "3002"],
+      "port": 3002,
+      "autoPort": false
+    },
+    {
+      "name": "sistema-clinica",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:/Users/pedro/OneDrive/Desktop/sistema-clinica", "run", "dev", "--", "-p", "3100"],
+      "port": 3100,
+      "autoPort": false
+    }
+  ]
+}
