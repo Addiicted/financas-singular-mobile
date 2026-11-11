@@ -11,7 +11,7 @@ import { useMonthData, useMonthSeries, useInsights } from '../data';
 import { CashFlowChart } from '../charts';
 import { useQuickActions } from '../actions';
 import {
-  Money, MonthPicker, Panel, SectionTitle, CategoryIcon, Ring, useCategoryStyle,
+  Money, Panel, SectionTitle, CategoryIcon, Ring, useCategoryStyle,
   monthKey, shortDate, MONTHS, todayISO,
 } from '../ui';
 
@@ -32,7 +32,10 @@ function greeting() {
   return h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
 }
 
-export default function Inicio({ month, setMonth, go, onOpenTx }) {
+export default function Inicio({ setMonth, go, onOpenTx }) {
+  // O Início mostra sempre o mês atual (o seletor de mês fica no Extrato)
+  const now = new Date();
+  const month = { y: now.getFullYear(), m: now.getMonth() + 1 };
   const { metrics, accounts, cards, getAccountBalance, getInvoiceData, entityType, setExtratoFilterType } = useFinancial();
   const { list, totals, categorySpending, categoryTotal } = useMonthData(month);
   const series = useMonthSeries(month, 6);
@@ -41,7 +44,6 @@ export default function Inicio({ month, setMonth, go, onOpenTx }) {
   const styleFor = useCategoryStyle();
   const key = monthKey(month);
   const today = todayISO();
-  const now = new Date();
 
   const pending = list
     .filter(t => t.status === 'pending' && t.type === 'expense' && (t.date || '') >= today)
@@ -69,8 +71,6 @@ export default function Inicio({ month, setMonth, go, onOpenTx }) {
           <p className="text-lg font-bold text-white">{greeting()} 👋</p>
         </div>
       </div>
-
-      <MonthPicker month={month} onChange={setMonth} />
 
       {/* Saldo principal */}
       <div className={`relative overflow-hidden rounded-[28px] p-5 bg-gradient-to-br ${heroGradient} shadow-xl shadow-black/40`}>
@@ -161,7 +161,7 @@ export default function Inicio({ month, setMonth, go, onOpenTx }) {
       <section>
         <SectionTitle>Entradas x saídas</SectionTitle>
         <Panel className="p-4">
-          <CashFlowChart series={series} selected={month} onSelect={setMonth} />
+          <CashFlowChart series={series} selected={month} onSelect={(m) => { setMonth(m); go('extrato'); }} />
         </Panel>
       </section>
 
